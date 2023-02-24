@@ -1,13 +1,14 @@
 const url = "http://localhost:3000/api/products"
 const section = document.getElementById("items")
 
-const getArticles = () => {
+//insertion des produits dans la page d'accueil
+const getNosProduits = () => {
     fetch(url)
     .then(function (response){
         return response.json()
     })
     .then(function (data){
-      console.log (data)
+
         for(products in data){
             section.innerHTML += `<a href="./product.html?id=42">
             <article>
@@ -19,5 +20,3 @@ const getArticles = () => {
         }
     })
 }
-
-getArticles()
