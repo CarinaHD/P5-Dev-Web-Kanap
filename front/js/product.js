@@ -39,5 +39,6 @@ const getNosProduits = () =>  {
 
 //Ajout des produits dans le panier
 
-
+const addToCart = document.querySelector("addToCart")
+addToCart.addEventListener("click")
 
