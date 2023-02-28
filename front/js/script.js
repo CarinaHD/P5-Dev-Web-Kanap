@@ -4,8 +4,8 @@ const section = document.getElementById("items")
 //insertion des produits dans la page d'accueil
 const getProducts = async () => {
   
-    fetch(url)
-    .then(function (response){
+    return fetch(url)
+    .then(async function (response){
         return response.json()
     })
          
@@ -13,19 +13,17 @@ const getProducts = async () => {
 
 function displayProducts(products){
   let template = ""
-  for(product in products){
+  for(product of products){
     template += `<a href="./product.html?id=42">
     <article>
-      <img src="${product[products].imageUrl}" alt="${product[products].altTxt}">
-      <h3 class="productName">${product[products].name}</h3>
-      <p class="productDescription">${product[products].description}</p>
+      <img src="${product.imageUrl}" alt="${product.altTxt}">
+      <h3 class="productName">${product.name}</h3>
+      <p class="productDescription">${product.description}</p>
     </article>
   </a>`
 }
 section.innerHTML = template
 }
-
-
 
 async function init (){
   const products = await getProducts()
