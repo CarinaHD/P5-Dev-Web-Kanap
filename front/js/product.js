@@ -1,8 +1,14 @@
-//fonction appelant l'API - lien entre un produit de la page d'accueil la page produit
+//récupération de l'API - lien entre un produit de la page d'accueil la page produit
 
-const searchParams = new URL(document.location).searchparams
-const id = searchParams.get ("id")
-const url = "http://localhost:3000/api/products/$(id)"
+const varId=new URLSearchParams(window.location.href).get("id")
+findProducts()
+
+async function findProducts(){
+    await fetch ("http://localhost:3000/api/products/"+varId)
+
+}
+
+/*
 
 const getProducts = () =>  {
     fetch(url)
@@ -10,28 +16,27 @@ const getProducts = () =>  {
         return response.json()
     })
     .then(function (products){
-        console.log(products)
-
+       
         //détail de la page produit
 
         //création de l'image
-        const imgElement = document.createElement("img")
+        const AddimgElement = document.createElement("img")
         document.querySelector(".item__img").appendChild(imgElement)
         img.getAttribute("src",`${products.imageUrl}`)
 
         //afficher le nom du produit
-        const title = (document.getElementById('title').innerHTML = products.name)
+        const addTitle = (document.getElementById('title').innerHTML = products.name)
 
         //afficher le prix
-        const price = (document.getElementById('price').innerHTML = products.price)
+        const addPrice = (document.getElementById('price').innerHTML = products.price)
 
         //afficher la description
-        const descriptionElement = (document.getElementById('description').innerHTML = products.description)
+        const addDescriptionElement = (document.getElementById('description').innerHTML = products.description)
 
         //le choix des couleurs
-        const choiceColors = document.getElementById("colors")
+        const addChoiceColors = document.getElementById("colors")
         for (colors in products.colors){
-            choiceColors.innerHTML +=`<option value="${products.colors}"</option>`
+            addChoiceColors.innerHTML +=`<option value="${products.colors}"</option>`
         }
     })
 
@@ -40,5 +45,7 @@ const getProducts = () =>  {
 //Ajout des produits dans le panier
 
 const addToCart = document.querySelector("addToCart")
-addToCart.addEventListener("click")
+//addToCart.addEventListener("click")
+
+*/
 

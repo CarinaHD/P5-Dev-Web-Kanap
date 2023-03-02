@@ -23,6 +23,7 @@ function displayProducts(products){
   </a>`
 }
 section.innerHTML = template
+
 }
 
 async function init (){
