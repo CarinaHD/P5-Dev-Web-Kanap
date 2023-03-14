@@ -45,27 +45,45 @@ function displayProduct(product){
 
 //ajout des produits dans le panier selon les couleurs et quantités souhaités
 
-const addToCart = document.querySelector("addToCart")
+const addToCart = document.querySelector("#addToCart")
 
 //condition pour valider en cliquant sur le bouton "Ajouter au panier"
 addToCart.addEventListener("click",()=>{ 
     const product = {
         quantity:document.getElementById("quantity").value,
         color:document.getElementById("colors").value,
-        id:id
+        id:varId
     } 
 
-//stockage des informations dans le localstorage
-addProductLocalStorage = []
-if(localStorage.getItem("addToCart")!==null){
-    addProductLocalStorage = JSON.parse(localStorage.getItem("addToCart"))
-    addProductLocalStorage.push(addToCart)
-    localStorage.setItem("addToCart",JSON.stringify(addProductLocalStorage))
-} else {
-    addProductLocalStorage.push(addToCart)
-    localStorage.setItem("addToCart",JSON.stringify (addProductLocalStorage))
-}
+//stockage des informations dans le localstorage --- window.localStorage.getItem ()
+    products = []
+    if(localStorage.getItem("cart")!==null){
+        products = JSON.parse(localStorage.getItem("cart"))
+        products.push(product)
+    } else {
+        products.push(product)
+    }
+    localStorage.setItem("cart",JSON.stringify (products))
 })
+
+//condition de l'article ajouté au panier en plusieurs exemplaires
+
+//alerte apparaissant si l'article est ajouté au panier
+function productAdded (){
+    const body = document.querySelector('body')
+    const message = document.createElement ('p')
+    message.innerHTML ='<p>Ajouté au panier</p>'
+}
+
+//création d'une alerte si le panier dépasse le nombre maximum autorité
+function productAdded (){
+    const body = document.querySelector('body')
+    const alertMessage = document.createElement ('p')
+    alertMessage.innerHTML ='<p>Vous avez atteint le nombre maximum!</p>'
+}
+
+//condition de l'article ajouté au panier en supprimant un ou plusieurs exemplaires
+
 
 getProduct()
 
