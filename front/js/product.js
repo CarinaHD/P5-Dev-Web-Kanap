@@ -55,18 +55,16 @@ addToCart.addEventListener("click",()=>{
         id:varId
     } 
 
-//stockage des informations dans le localstorage --- window.localStorage.getItem ()
+//stockage des informations dans le localstorage --- 
     products = []
     if(localStorage.getItem("cart")!==null){
-        products = JSON.parse(localStorage.getItem("cart"))
+        product = JSON.parse(localStorage.getItem("cart"))
         products.push(product)
     } else {
         products.push(product)
     }
-    localStorage.setItem("cart",JSON.stringify (products))
+    localStorage.setItem("cart",JSON.stringify (product))
 })
-
-//condition de l'article ajouté au panier en plusieurs exemplaires
 
 //alerte apparaissant si l'article est ajouté au panier
 function productAdded (){
@@ -75,15 +73,39 @@ function productAdded (){
     message.innerHTML ='<p>Ajouté au panier</p>'
 }
 
-//création d'une alerte si le panier dépasse le nombre maximum autorité
-function productAdded (){
-    const body = document.querySelector('body')
-    const alertMessage = document.createElement ('p')
-    alertMessage.innerHTML ='<p>Vous avez atteint le nombre maximum!</p>'
+const newQuantity = document.getElementById("quantity").value
+const sameColor = document.getElementById("colors").value
+
+//alerte si la quantité est inférieur à 1
+    if ("#quantity" < 0) {
+        alert('Sélectionnez le nombre de canapé souhaité!')
+    }
+
+//alerte si la quantité atteint plus de 100 
+    else if ("#quantity" >=100){
+        alert ('Vous avez atteint le nombre maximum sur ce modèle!')
+    }
+
+//alerte si la couleur n'est pas sélectionnée
+    else if ("#colors"){
+        alert ('Choisissez la couleur de votre canapé!')
+    }
+
+
+//article en plusieurs exemplaires, même id, même couleur dans le localstorage
+
+/*
+//si l'article existe dans le panier sur le localstorage
+if(){
+    
 }
 
-//condition de l'article ajouté au panier en supprimant un ou plusieurs exemplaires
+//on additionne les quantités des articles existant qui ont la même id et même couleur
+if(newCart){
+    addToCart = product + newQuantity + sameColor;
+    localstorage.setItem("cart",JSON.stringify(product))
 
-
+}
+*/
 getProduct()
 
