@@ -47,65 +47,66 @@ function displayProduct(product){
 
 const addToCart = document.querySelector("#addToCart")
 
-//condition pour valider en cliquant sur le bouton "Ajouter au panier"
+//condition pour valider en cliquant sur le bouton "Ajouter au panier" 
 addToCart.addEventListener("click",()=>{ 
     const product = {
         quantity:document.getElementById("quantity").value,
         color:document.getElementById("colors").value,
         id:varId
-    } 
+    }
+})
 
 //stockage des informations dans le localstorage --- 
-    products = []
+product = []
     if(localStorage.getItem("cart")!==null){
         product = JSON.parse(localStorage.getItem("cart"))
-        products.push(product)
+        //products.push(product)
     } else {
         products.push(product)
     }
     localStorage.setItem("cart",JSON.stringify (product))
-})
-
-//alerte apparaissant si l'article est ajouté au panier
-function productAdded (){
-    const body = document.querySelector('body')
-    const message = document.createElement ('p')
-    message.innerHTML ='<p>Ajouté au panier</p>'
-}
-
-const newQuantity = document.getElementById("quantity").value
-const sameColor = document.getElementById("colors").value
-
-//alerte si la quantité est inférieur à 1
-    if ("#quantity" < 0) {
-        alert('Sélectionnez le nombre de canapé souhaité!')
-    }
-
-//alerte si la quantité atteint plus de 100 
-    else if ("#quantity" >=100){
-        alert ('Vous avez atteint le nombre maximum sur ce modèle!')
-    }
 
 //alerte si la couleur n'est pas sélectionnée
-    else if ("#colors"){
-        alert ('Choisissez la couleur de votre canapé!')
-    }
-
-
-//article en plusieurs exemplaires, même id, même couleur dans le localstorage
-
-/*
-//si l'article existe dans le panier sur le localstorage
-if(){
-    
+if ("#colors" != ''){
+    alert ('Choisissez la couleur de votre canapé!')
 }
 
-//on additionne les quantités des articles existant qui ont la même id et même couleur
-if(newCart){
-    addToCart = product + newQuantity + sameColor;
-    localstorage.setItem("cart",JSON.stringify(product))
-
+//alerte si la quantité est inférieur à 1
+else if ("#quantity" < 0) {
+    alert('Sélectionnez le nombre de canapé souhaité!')
 }
-*/
+
+//alerte si la quantité atteint plus de 100 
+else if ("#quantity" >=100){
+    alert ('Vous avez atteint le nombre maximum sur ce modèle!')
+}
+
+// dans le panier 
+    const inMyCart = () => {
+        
+        //redirection vers = cart.html avec voir mon panier:
+      if (confirm("Voir mon panier ou je continue mes achats")) {
+        window.location.href = "cart.html";
+      }
+      
+      //redirection vers = index.html avec je continue mes achats:
+      else{
+        window.location.href = "index.html";
+      }
+    }  
+
+//si le produit était déjà présent dans le panier on incrémente la quantité du produit
+const myProduct = {
+    quantity:quantity,
+    color:colors,
+    id:varId
+}
+
+/*if (cartDetail) {
+    cartDetail.quantity = cartDetail.quantity + myProduct.quantity;
+    localStorage.setItem("cart", JSON.stringify(products));
+}*/
+
+
 getProduct()
 
