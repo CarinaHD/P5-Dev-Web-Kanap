@@ -54,58 +54,85 @@ addToCart.addEventListener("click",()=>{
         color:document.getElementById("colors").value,
         id:varId
     }
+    storeToLocalStorage(product)
+
 })
 
-//stockage des informations dans le localstorage --- 
-product = []
-    if(localStorage.getItem("cart")!==null){
-        product = JSON.parse(localStorage.getItem("cart"))
-        //products.push(product)
-    } else {
-        products.push(product)
+function storeToLocalStorage(product) {
+    console.log(product)
+
+     //alerte si la couleur n'est pas sélectionnée
+     if (!product.color){
+        alert ('Choisissez la couleur de votre canapé!');
+        return;
     }
-    localStorage.setItem("cart",JSON.stringify (product))
 
-//alerte si la couleur n'est pas sélectionnée
-if ("#colors" != ''){
-    alert ('Choisissez la couleur de votre canapé!')
+    //alerte si la quantité est inférieur à 1
+    else if (product.quantity < 0) {
+        alert('Sélectionnez le nombre de canapé souhaité!');
+        return;
+    }
+
+    //alerte si la quantité atteint plus de 100 
+    else if (product.quantity >=100){
+        alert ('Vous avez atteint le nombre maximum sur ce modèle!');
+        return;
+    }
+
+//récupération des valeurs
+    const myProduct = {
+        quantity:quantity,
+        color:colors,
+        id:varId
+    }
+
 }
 
-//alerte si la quantité est inférieur à 1
-else if ("#quantity" < 0) {
-    alert('Sélectionnez le nombre de canapé souhaité!')
+let localStorageClient = JSON.parse(localStorage.getItem("cart"));
+
+//popup fenêtre confirmation d'ajout d'article ou continuer les achats avec la const inMyCart
+const messageFromMyCart = () => {
+            
+    //redirection vers = cart.html avec voir mon panier, le client cliquera sur OK:
+if (confirm("Voir mon panier OK ou je continue mes achats ANNULER")) {
+    window.location.href = "cart.html";
 }
 
-//alerte si la quantité atteint plus de 100 
-else if ("#quantity" >=100){
-    alert ('Vous avez atteint le nombre maximum sur ce modèle!')
+//redirection vers = index.html avec je continue mes achats, le client cliquera sur ANNULER:
+else{
+    window.location.href = "index.html";
 }
 
-// dans le panier 
-    const inMyCart = () => {
-        
-        //redirection vers = cart.html avec voir mon panier:
-      if (confirm("Voir mon panier ou je continue mes achats")) {
-        window.location.href = "cart.html";
-      }
-      
-      //redirection vers = index.html avec je continue mes achats:
-      else{
-        window.location.href = "index.html";
-      }
-    }  
+//s'il y a des produits  dans le localStorage
+//on cherche avec la methode .find 
+if (localStorageClient){
+let myChoice = localStorageClient.find(
+    (myChoice) =>
+    myChoice.id === myProduct)
+}  
 
-//si le produit était déjà présent dans le panier on incrémente la quantité du produit
-const myProduct = {
-    quantity:quantity,
-    color:colors,
-    id:varId
+//si oui, on additionne les mêmes produits id et couleurs ensemble
+if (myChoice) {
+    myChoice.quantity = myChoice.quantity + myProduct.quantity;
+    localStorage.setItem("cart", JSON.stringify(localStorageClient)); /// mise à jour du localStorage
+    messageFromMyCart();
+    return;
+
 }
 
-/*if (cartDetail) {
-    cartDetail.quantity = cartDetail.quantity + myProduct.quantity;
-    localStorage.setItem("cart", JSON.stringify(products));
-}*/
+//on pousse tous les articles choisis si rien dans le localStorage
+    localStorageClient.push(myProduct);
+    localStorage.setItem("cart", JSON.stringify(localStorageClient));
+    messageFromMyCart();
+
+///si pas de produits dans le localStorage on push aussi
+let localStorageEmpty = [];
+localStorageEmpty.push(myProduct);
+localStorage.setItem("cart", JSON.stringify(localStorageEmpty));
+messageFromMyCart();
+
+}
+
 
 
 getProduct()
