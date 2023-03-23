@@ -103,33 +103,25 @@ else{
     window.location.href = "index.html";
 }
 
-//s'il y a des produits  dans le localStorage
-//on cherche avec la methode .find 
-if (localStorageClient){
-let myChoice = localStorageClient.find(
-    (myChoice) =>
-    myChoice.id === myProduct)
-}  
-
-//si oui, on additionne les mêmes produits id et couleurs ensemble
-if (myChoice) {
-    myChoice.quantity = myChoice.quantity + myProduct.quantity;
-    localStorage.setItem("cart", JSON.stringify(localStorageClient)); /// mise à jour du localStorage
-    messageFromMyCart();
-    return;
-
+//fonction qui ajoute un produit dans le localStorage
+const moreProduct = () => {
+    localStorageClient.push(myProduct);
+    localStorage.setItem("product"),JSON.stringify(localStorageClient);
 }
 
-//on pousse tous les articles choisis si rien dans le localStorage
-    localStorageClient.push(myProduct);
-    localStorage.setItem("cart", JSON.stringify(localStorageClient));
+//s'il y a des produits  dans le localStorage
+if (localStorageClient){
+    moreProduct();
     messageFromMyCart();
+}  
 
-///si pas de produits dans le localStorage on push aussi
-let localStorageEmpty = [];
-localStorageEmpty.push(myProduct);
-localStorage.setItem("cart", JSON.stringify(localStorageEmpty));
-messageFromMyCart();
+//s'il n'y a pas de produits dans le localStorage
+else{
+    localStorageClient = [];
+    moreProduct();
+    messageFromMyCart();
+}
+
 
 }
 
