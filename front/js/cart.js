@@ -3,7 +3,7 @@ console.log("salut panier")
 let localStorageClient = JSON.parse(localStorage.getItem("cart"));
 
 let products = []
-
+/* ---- à mettre dans une boucle-----
 let i = 0;
     
 for (product in localStorageClient) {
@@ -51,11 +51,11 @@ document.querySelector('#cart__items').innerHTML += `<article class="cart__item"
     });
     
 }
-
+*/
 
 //si le panier est vide
 if(localStorageClient === null){
-console.log("ton panier est vide")
+    console.log("ton panier est vide")
 }
 else{
     console.log("non je suis pas vide")

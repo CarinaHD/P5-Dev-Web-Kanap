@@ -52,11 +52,9 @@ addToCart.addEventListener("click",()=>{
     const product = {
         quantity:document.getElementById("quantity").value,
         color:document.getElementById("colors").value,
-        id:varId
+        id:varId,
     }
     storeToLocalStorage(product)
-
-})
 
 function storeToLocalStorage(product) {
     console.log(product)
@@ -78,54 +76,63 @@ function storeToLocalStorage(product) {
         alert ('Vous avez atteint le nombre maximum sur ce modèle!');
         return;
     }
-
-//récupération des valeurs
-    const myProduct = {
-        quantity:quantity,
-        color:colors,
-        id:varId
-    }
-
 }
 
-let localStorageClient = JSON.parse(localStorage.getItem("cart"));
 
-//popup fenêtre confirmation d'ajout d'article ou continuer les achats avec la const inMyCart
+products = [] 
+
+const localStorageClient = localStorage.getItem("cart") 
+
+if(!localStorageClient){
+    products.push (product)
+}
+else {products.push (product)
+    }
+localStorage.setItem("cart"),JSON.stringify(product)
+
+storeToLocalStorage(product) = JSON.parse(localStorage.getItem("cart"));
+
+
+//popup fenêtre confirmation d'ajout d'article ou continuer les achats avec la fonction ci-dessous
 const messageFromMyCart = () => {
             
-    //redirection vers = cart.html avec voir mon panier, le client cliquera sur OK:
+    //redirection vers = cart.html avec 'voir mon panier', le client cliquera sur OK:
 if (confirm("Voir mon panier OK ou je continue mes achats ANNULER")) {
     window.location.href = "cart.html";
 }
 
-//redirection vers = index.html avec je continue mes achats, le client cliquera sur ANNULER:
+//redirection vers = index.html avec 'je continue mes achats', le client cliquera sur ANNULER:
 else{
     window.location.href = "index.html";
 }
-
-//fonction qui ajoute un produit dans le localStorage
-const moreProduct = () => {
-    localStorageClient.push(myProduct);
-    localStorage.setItem("product"),JSON.stringify(localStorageClient);
 }
 
 //s'il y a des produits  dans le localStorage
 if (localStorageClient){
-    moreProduct();
-    messageFromMyCart();
+
+// avec la method find() si l'id et la couleur d'un produit existant
+    let moreProduct = localStorageClient.find(
+        (moreProduct) =>
+        moreProduct.varId == product.id && moreProduct.color == product.color
+    );
 }  
+
+//si oui, on additionne les quantités correspondant au même id et même couleur
+if (moreProduct){
+    moreProduct.quantity = moreProduct.quantity + product.quantity;
+    localStorageClient.setItem("cart",JSON.stringify(product));
+    messageFromMyCart();
+    return;
+}
 
 //s'il n'y a pas de produits dans le localStorage
 else{
-    localStorageClient = [];
-    moreProduct();
+    let newLocalStorageClient = [];
+    newLocalStorageClient.push(product);
+    localStorageClient.setItem("cart",JSON.stringify(newLocalStorageClient));
     messageFromMyCart();
 }
-
-
-}
-
-
+})
 
 getProduct()
 
