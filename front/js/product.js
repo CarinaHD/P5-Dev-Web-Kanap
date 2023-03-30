@@ -1,5 +1,5 @@
 //récupération de l'API - lien entre un produit de la page d'accueil la page produit
-const varId=new URL(window.location.href).searchParams.get("id")
+const varId = new URL(window.location.href).searchParams.get("id")
 async function init () {
     
     const product = await getProduct()
@@ -66,7 +66,7 @@ function storeToLocalStorage(product) {
     }
 
     //alerte si la quantité est inférieur à 1
-    else if (product.quantity < 0) {
+    else if (product.quantity <= 0 && product.quantity !== '') {
         alert('Sélectionnez le nombre de canapé souhaité!');
         return;
     }
@@ -78,20 +78,18 @@ function storeToLocalStorage(product) {
     }
 }
 
+//stockage des informations dans le localstorage
+products = []
 
-products = [] 
-
-const localStorageClient = localStorage.getItem("cart") 
-
-if(!localStorageClient){
+if (localStorage.getItem("cart") !==null) {
     products.push (product)
+    products = JSON.parse (localStorage.getItem("cart"))
+} 
+else {
+    products.push (product)
+    //transformation en JSON et envoi dans la key "cart" du localstorage
+    localStorage.setItem("cart", JSON. stringify (product))
 }
-else {products.push (product)
-    }
-localStorage.setItem("cart"),JSON.stringify(product)
-
-storeToLocalStorage(product) = JSON.parse(localStorage.getItem("cart"));
-
 
 //popup fenêtre confirmation d'ajout d'article ou continuer les achats avec la fonction ci-dessous
 const messageFromMyCart = () => {
@@ -99,40 +97,40 @@ const messageFromMyCart = () => {
     //redirection vers = cart.html avec 'voir mon panier', le client cliquera sur OK:
 if (confirm("Voir mon panier OK ou je continue mes achats ANNULER")) {
     window.location.href = "cart.html";
+    messageFromMyCart();
 }
 
 //redirection vers = index.html avec 'je continue mes achats', le client cliquera sur ANNULER:
 else{
     window.location.href = "index.html";
+    messageFromMyCart();
 }
 }
 
-//s'il y a des produits  dans le localStorage
-if (localStorageClient){
-
-// avec la method find() si l'id et la couleur d'un produit existant
-    let moreProduct = localStorageClient.find(
-        (moreProduct) =>
-        moreProduct.varId == product.id && moreProduct.color == product.color
+//on cherche dans le localStorage s'il existe les mêmes produits (id et couleur)
+if (storeToLocalStorage(product)) {
+    let moreProducts = storeToLocalStorage(product).find (
+        (moreProducts) =>
+        moreProducts.varId == product.varId && moreProducts.colors == product.colors
     );
-}  
+}
 
-//si oui, on additionne les quantités correspondant au même id et même couleur
-if (moreProduct){
-    moreProduct.quantity = moreProduct.quantity + product.quantity;
-    localStorageClient.setItem("cart",JSON.stringify(product));
+// si oui, on les additionne 
+if (moreProducts) {
+    moreProducts.quantity = moreProducts.quantity + product.quantity;
+    localStorage.setItem("cart", JSON.stringify(product));
     messageFromMyCart();
     return;
 }
 
-//s'il n'y a pas de produits dans le localStorage
-else{
-    let newLocalStorageClient = [];
-    newLocalStorageClient.push(product);
-    localStorageClient.setItem("cart",JSON.stringify(newLocalStorageClient));
+// si non, on push dans le localStorage
+else {
+    //  S'il n'y a pas de produits dans le locale stockage alors création d'un tableau dans le lequel on push l'objet "optionProduct";
+    let newLocalStorage = [];
+    newLocalStorage.push(product);
+    localStorage.setItem("cart", JSON.stringify(newLocalStorage));
     messageFromMyCart();
+
 }
 })
-
 getProduct()
-
