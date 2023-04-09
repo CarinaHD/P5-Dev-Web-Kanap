@@ -54,83 +54,75 @@ addToCart.addEventListener("click",()=>{
         color:document.getElementById("colors").value,
         id:varId,
     }
-    storeToLocalStorage(product)
+   
+    function alertIfKo(product) {
+        console.log(product)
 
-function storeToLocalStorage(product) {
-    console.log(product)
+        //alerte si la couleur n'est pas sélectionnée
+        if (!product.color){
+            alert ('Choisissez la couleur de votre canapé!');
+            return;
+        }
 
-     //alerte si la couleur n'est pas sélectionnée
-     if (!product.color){
-        alert ('Choisissez la couleur de votre canapé!');
-        return;
+        //alerte si la quantité est inférieur à 1
+        else if (product.quantity <= 0 && product.quantity !== '') {
+            alert('Sélectionnez le nombre de canapé souhaité!');
+            return;
+        }
+
+        //alerte si la quantité atteint plus de 100 
+        else if (product.quantity >=100){
+            alert ('Vous avez atteint le nombre maximum sur ce modèle!');
+            return;
+        }
     }
 
-    //alerte si la quantité est inférieur à 1
-    else if (product.quantity <= 0 && product.quantity !== '') {
-        alert('Sélectionnez le nombre de canapé souhaité!');
-        return;
+    //popup fenêtre confirmation d'ajout d'article ou continuer les achats avec la fonction ci-dessous
+    function redirectUserAlert() {
+
+        //redirection vers = cart.html avec 'voir mon panier', le client cliquera sur OK:
+        if (confirm("Voir mon panier OK ou je continue mes achats ANNULER")) {
+        window.location.href = "cart.html";
+        }
+
+        //redirection vers = index.html avec 'je continue mes achats', le client cliquera sur ANNULER:
+        else{
+            window.location.href = "index.html";
+        }
     }
 
-    //alerte si la quantité atteint plus de 100 
-    else if (product.quantity >=100){
-        alert ('Vous avez atteint le nombre maximum sur ce modèle!');
-        return;
+    function addProductToList(list, product) {
+        // Recherche dans la liste si un produit avec le mm id et la mm couleur existe
+        const existingProduct = list.find(element => {
+            return (element.id == product.id && element.color == product.color)
+        })
+
+        if (existingProduct) {
+            const currentQuantity = parseInt(existingProduct.quantity)
+            existingProduct.quantity = currentQuantity + parseInt(product.quantity)
+        } else {
+            list.push(product)
+        }
+
+        return list
     }
-}
 
-//stockage des informations dans le localstorage
-products = []
+    alertIfKo(product)
 
-if (localStorage.getItem("cart") !==null) {
-    products.push (product)
-    products = JSON.parse (localStorage.getItem("cart"))
-} 
-else {
-    products.push (product)
-    //transformation en JSON et envoi dans la key "cart" du localstorage
-    localStorage.setItem("cart", JSON. stringify (product))
-}
+    //stockage des informations dans le localstorage
+    products = []
+    const localStore = JSON.parse(localStorage.getItem("cart"))
 
-//popup fenêtre confirmation d'ajout d'article ou continuer les achats avec la fonction ci-dessous
-const messageFromMyCart = () => {
-            
-    //redirection vers = cart.html avec 'voir mon panier', le client cliquera sur OK:
-if (confirm("Voir mon panier OK ou je continue mes achats ANNULER")) {
-    window.location.href = "cart.html";
-    messageFromMyCart();
-}
-
-//redirection vers = index.html avec 'je continue mes achats', le client cliquera sur ANNULER:
-else{
-    window.location.href = "index.html";
-    messageFromMyCart();
-}
-}
-
-//on cherche dans le localStorage s'il existe les mêmes produits (id et couleur)
-if (storeToLocalStorage(product)) {
-    let moreProducts = storeToLocalStorage(product).find (
-        (moreProducts) =>
-        moreProducts.varId == product.varId && moreProducts.colors == product.colors
-    );
-}
-
-// si oui, on les additionne 
-if (moreProducts) {
-    moreProducts.quantity = moreProducts.quantity + product.quantity;
-    localStorage.setItem("cart", JSON.stringify(product));
-    messageFromMyCart();
-    return;
-}
-
-// si non, on push dans le localStorage
-else {
-    //  S'il n'y a pas de produits dans le locale stockage alors création d'un tableau dans le lequel on push l'objet "optionProduct";
-    let newLocalStorage = [];
-    newLocalStorage.push(product);
-    localStorage.setItem("cart", JSON.stringify(newLocalStorage));
-    messageFromMyCart();
-
-}
+    if (localStore !==null) {
+        products = [...localStore]
+        products = addProductToList(products, product)
+    } 
+    else {
+        products.push(product)
+        //transformation en JSON et envoi dans la key "cart" du localstorage
+    }
+    localStorage.setItem('cart', JSON.stringify(products))
+    // redirectUserAlert()
 })
+
 getProduct()
