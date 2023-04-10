@@ -63,8 +63,3 @@ function enrichProductsWithDataFromAPI() {
     .then(localStorageClient => displayProducts(localStorageClient))
 }
 enrichProductsWithDataFromAPI()
-
-    //suppression d'articles (quantité) dans le panier
-    document.querySelector("deleteItem").textContent = 'Supprimer'
-
-    // la suite à reprendre à partir de la ligne 67
