@@ -62,4 +62,57 @@ function enrichProductsWithDataFromAPI() {
     })
     .then(localStorageClient => displayProducts(localStorageClient))
 }
+
 enrichProductsWithDataFromAPI()
+
+/////////////// TOTAL PANIER ////////////////
+
+        //-------- fonction qui calcule le total en quantité d'articles dans le panier --------- //
+function totalProductsQuantity (){
+    let totalQuantity = 0;
+    let quantityProductCart = 0;
+    totalQuantity += parseInt(quantityProductCart);
+    console.log(totalQuantity);
+    document.getElementById(".totalQuantity").innerText(totalQuantity);
+}
+totalProductsQuantity()
+
+        //--------- fonction qui calcule le montant global dans le panier ------------ //
+function totalProductsPrice (){
+    let priceProductCart = 0;
+    totalProductsPrice = quantityProductCart * priceProductCart;
+    totalPrice += parseInt(priceProductCart);
+    console.log(totalPrice);
+    document.getElementById(".totalPrice").innerText = totalPrice;
+}
+totalProductsPrice()
+        
+
+////////////// modification du panier ///////////////////
+
+/// suppression d'articles dans le panier
+
+function deleteProducts() {
+    // on récupère les btns supprimer qui existent dans le DOM et on transforme ça en tableau grâce à Array.from()
+    let deleteBtn = Array.from(document.querySelectorAll('.deleteItem'))
+    console.log(deleteBtn)
+  
+    // on crée un tableau vide pour récupérer le panier existant et contrôler les suppressions d'articles
+    let cartControlDelete = [];
+    console.log(basketControlDelete)
+  
+    for (let i = 0; i < deleteBtn.length; i++) {
+      // Écoute d'évènements au click sur le tableau des boutons supprimer
+      deleteBtn[i].addEventListener("click", () => {
+      
+  
+        // Mise à jour du local storage
+       
+
+        
+      });
+    }
+  }
+
+/// envoi de la commande
+
